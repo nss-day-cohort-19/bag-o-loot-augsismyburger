@@ -17,7 +17,7 @@ namespace BagOLoot
             _connection = new SqliteConnection(_connectionString);
         }
 
-        public void Check ()
+        public void CheckForChildTable ()
         {
             using (_connection)
             {
@@ -45,6 +45,40 @@ namespace BagOLoot
                             `id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
                             `name`	varchar(80) not null, 
                             `delivered` integer not null default 0
+                        )";
+                        dbcmd.ExecuteNonQuery ();
+                        dbcmd.Dispose ();
+                    }
+                }
+                _connection.Close ();
+            }
+        }
+        public void CheckForToyTable ()
+        {
+            using(_connection)
+            {
+                _connection.Open();
+                SqliteCommand dbcmd = _connection.CreateCommand ();
+
+                // Query Toy Table to See iF it has been created
+                dbcmd.CommandText = $"select id from toyBag";
+                try
+                {
+                    // Try to run the query. If it throws an exception, create the table
+                    using (SqliteDataReader reader = dbcmd.ExecuteReader())
+                    {
+                        
+                    }
+                    dbcmd.Dispose ();
+                }
+                catch (Microsoft.Data.Sqlite.SqliteException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    if (ex.Message.Contains("no such table"))
+                    {
+                        dbcmd.CommandText = $@"create table toyBag (
+                            `id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+                            `name`	varchar(80) not null
                         )";
                         dbcmd.ExecuteNonQuery ();
                         dbcmd.Dispose ();

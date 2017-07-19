@@ -8,6 +8,7 @@ namespace BagOLoot.Tests
     {
         private readonly ChildRegister _register;
 
+
         public ChildRegisterShould()
         {
             _register = new ChildRegister();
@@ -17,17 +18,25 @@ namespace BagOLoot.Tests
         [InlineData("Sarah")]
         [InlineData("Jamal")]
         [InlineData("Kelly")]
-        public void AddChildren(string child)
+        public void ShouldAddChildren(string child)
         {
             var result = _register.AddChild(child);
             Assert.True(result);
         }
 
         [Fact]
-        public void ReturnListOfChildren()
+        public void ShouldReturnListOfChildren()
         {
             var result = _register.GetChildren();
             Assert.IsType<List<string>>(result);
+        }
+
+        [Fact]
+        public void ShouldDeliverChildToys()
+        {
+
+            var result = _register.DeliverChildToys(1, true);
+            Assert.Equal(result, "Toys have been delivered");
         }
     }
 }

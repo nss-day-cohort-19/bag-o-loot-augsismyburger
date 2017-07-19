@@ -9,7 +9,8 @@ namespace BagOLoot
         public static void Main(string[] args)
         {
             var db = new DatabaseInterface();
-            db.Check();
+            db.CheckForChildTable();
+            db.CheckForToyTable();
 
             Console.WriteLine ("WELCOME TO THE BAG O' LOOT SYSTEM");
             Console.WriteLine ("*********************************");

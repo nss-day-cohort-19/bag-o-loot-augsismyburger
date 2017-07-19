@@ -61,5 +61,9 @@ namespace BagOLoot
 
             return child;
         }
+        public string DeliverChildToys(int ChildId, bool HasBeenDelivered)
+        {
+            return $"Toys have been delivered";
+        }
     }
 }
