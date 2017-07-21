@@ -28,14 +28,14 @@ namespace BagOLoot.Tests
         public void ShouldReturnListOfChildren()
         {
             var result = _register.GetChildren();
-            Assert.IsType<List<string>>(result);
+            Assert.IsType<Dictionary<int, string>>(result);
         }
 
         [Fact]
         public void ShouldDeliverChildToys()
         {
 
-            var result = _register.DeliverChildToys(1, true);
+            var result = _register.DeliverChildToys(1);
             Assert.Equal(result, "Toys have been delivered");
         }
     }

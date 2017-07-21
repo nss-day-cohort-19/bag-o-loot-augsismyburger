@@ -25,7 +25,7 @@ namespace BagOLoot
                 SqliteCommand dbcmd = _connection.CreateCommand ();
 
                 // Query the child table to see if table is created
-                dbcmd.CommandText = $"select id from child";
+                dbcmd.CommandText = $"select ChildId from Child";
 
                 try
                 {
@@ -41,10 +41,10 @@ namespace BagOLoot
                     Console.WriteLine(ex.Message);
                     if (ex.Message.Contains("no such table"))
                     {
-                        dbcmd.CommandText = $@"create table child (
-                            `id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-                            `name`	varchar(80) not null, 
-                            `delivered` integer not null default 0
+                        dbcmd.CommandText = $@"create table Child (
+                            `ChildId`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+                            `Name`	varchar(80) not null, 
+                            `Delivered` integer not null default 0
                         )";
                         dbcmd.ExecuteNonQuery ();
                         dbcmd.Dispose ();
@@ -61,7 +61,7 @@ namespace BagOLoot
                 SqliteCommand dbcmd = _connection.CreateCommand ();
 
                 // Query Toy Table to See iF it has been created
-                dbcmd.CommandText = $"select id from toyBag";
+                dbcmd.CommandText = $"select ToyId from ToyBag";
                 try
                 {
                     // Try to run the query. If it throws an exception, create the table
@@ -76,9 +76,11 @@ namespace BagOLoot
                     Console.WriteLine(ex.Message);
                     if (ex.Message.Contains("no such table"))
                     {
-                        dbcmd.CommandText = $@"create table toyBag (
-                            `id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-                            `name`	varchar(80) not null
+                        dbcmd.CommandText = $@"create table ToyBag (
+                            `ToyId`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+                            `Name`	varchar(80) not null,
+                            `ChildId` integer not null,
+                            FOREIGN KEY (`ChildId`) REFERENCES `Child`(`ChildId`)
                         )";
                         dbcmd.ExecuteNonQuery ();
                         dbcmd.Dispose ();
